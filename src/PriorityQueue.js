@@ -36,7 +36,6 @@ class PriorityQueue {
     return this.heap.peek()
   }
 
-
   delete(k) { //cannot update so we need to delete an item; before requeing it
     let ind = _.findIndex(this.heap.arr, v => _.isEqual(v.val, k))
     if (ind > -1) {
@@ -47,7 +46,7 @@ class PriorityQueue {
   }
 
   list() {
-    return this.heap.arr
+    return !this.heap.arr ? this.heap.arr : this.heap.arr[0].priority ? this.heap.arr : this.heap.arr.map(e => e.val)
   }
 }
 module.exports = PriorityQueue
