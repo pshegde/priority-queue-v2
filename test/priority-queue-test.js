@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require('assert')
-const PriorityQueue = require('../index.js').priorityQueue
+const PriorityQueue = require('../index.js')
 const Item = require('../src/Item')
 
 //a is parent b is child
@@ -77,6 +77,14 @@ describe('test', () => {
     new Item('b', 3)])
   })
 
+  it('should peek content of queue', () => {
+    let obj = new PriorityQueue(comparator)
+    obj.queue('c', 1)
+    obj.queue('b', 3)
+
+    assert.deepEqual(obj.peek(), 'b')
+  })
+
   it('test with an object', () => {
     class Box {
       constructor(w, l) {
@@ -94,6 +102,8 @@ describe('test', () => {
     obj.queue(new Box(2, 3))
     obj.queue(new Box(3, 3))
     obj.queue(new Box(9, 9))
+
+    assert.deepEqual(obj.peek(), new Box(9, 9))
     assert.throws(() => { obj.queue(new Box(3, 3)) }, /^Error: Element already exists, call delete before adding!$/)
     assert.deepEqual(obj.dequeue(), new Box(9, 9))
     assert.deepEqual(obj.dequeue(), new Box(5, 5))

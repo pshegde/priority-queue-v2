@@ -21,7 +21,7 @@ class PriorityQueue {
   }
 
   dequeue() {
-    return this.heap.deleteMaxPriority()
+    return this.heap.poll()
   }
 
   clear() {
@@ -31,6 +31,11 @@ class PriorityQueue {
   isEmpty() {
     return this.heap.arr.length == 0
   }
+
+  peek() {
+    return this.heap.peek()
+  }
+
 
   delete(k) { //cannot update so we need to delete an item; before requeing it
     let ind = _.findIndex(this.heap.arr, v => _.isEqual(v.val, k))

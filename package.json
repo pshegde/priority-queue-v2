@@ -1,6 +1,6 @@
 {
   "name": "priority-queue-v2",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "with comparator and delete element functionality",
   "main": "priorityQueue.js",
   "scripts": {

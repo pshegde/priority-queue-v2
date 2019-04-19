@@ -21,13 +21,19 @@ class Heap {
     }
   }
 
-  deleteMaxPriority() {
+  poll() {
     if (this.arr.length == 0)
       return -1
     let max = this.arr[0]
     this.arr = this.arr.slice(1, this.arr.length)
     this.callHeapify()
     return max.val
+  }
+
+  peek() {
+    if (this.arr.length == 0)
+      return -1
+    return this.arr[0].val
   }
 }
 
