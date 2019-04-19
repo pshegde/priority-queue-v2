@@ -1,0 +1,15 @@
+{
+  "name": "priority-queue-v2",
+  "version": "1.0.1",
+  "description": "with comparator and delete element functionality",
+  "main": "priorityQueue.js",
+  "scripts": {
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --recursive"
+  },
+  "author": "codekarma",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "mocha": "^6.1.4"
+  }
+}
