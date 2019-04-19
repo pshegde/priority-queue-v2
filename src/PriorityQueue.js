@@ -15,7 +15,7 @@ class PriorityQueue {
 
   queue(k, priority) {
     //if k already present then error
-    if (_.find(this.heap.arr, v => v.val == k))
+    if (_.find(this.heap.arr, v => _.isEqual(v.val, k)))
       throw new Error('Element already exists, call delete before adding!')
     this.heap.insert(new Item(k, priority))
   }
@@ -33,12 +33,16 @@ class PriorityQueue {
   }
 
   delete(k) { //cannot update so we need to delete an item; before requeing it
-    let ind = _.findIndex(this.heap.arr, v => v.val == k)
+    let ind = _.findIndex(this.heap.arr, v => _.isEqual(v.val, k))
     if (ind > -1) {
       this.heap.arr.splice(ind, 1)
       this.heap.callHeapify()
     } else
       throw new Error('key does not exist!')
+  }
+
+  list() {
+    return this.heap.arr
   }
 }
 module.exports = PriorityQueue

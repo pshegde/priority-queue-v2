@@ -2,8 +2,11 @@
 
 const assert = require('assert')
 const PriorityQueue = require('../src/PriorityQueue')
-let comparator = function (a, b) {
-  return a <= b ? 0 : 1//sort is ascending order 1 means sort
+const Item = require('../src/Item')
+
+//a is parent b is child
+let comparator = (a, b) => {
+  return a >= b ? false : true
 }
 
 describe('test', () => {
@@ -62,5 +65,39 @@ describe('test', () => {
     assert.equal(obj.isEmpty(), false)
     obj.clear()
     assert.equal(obj.isEmpty(), true)
+  })
+
+  it('list the contents of the queue', () => {
+    let obj = new PriorityQueue(comparator)
+    obj.queue('c', 1)
+    obj.queue('b', 3)
+    obj.queue('a', 5)
+    assert.deepEqual(obj.list(), [new Item('a', 5),
+    new Item('c', 1),
+    new Item('b', 3)])
+  })
+
+  it('test with an object', () => {
+    class Box {
+      constructor(w, l) {
+        this.w = w
+        this.l = l
+        this.area = w * l //this is priority
+      }
+
+      comparator(a, b) {
+        return a.area >= b.area ? false : true
+      }
+    }
+    let obj = new PriorityQueue(Box.prototype.comparator)
+    obj.queue(new Box(5, 5))
+    obj.queue(new Box(2, 3))
+    obj.queue(new Box(3, 3))
+    obj.queue(new Box(9, 9))
+    assert.throws(() => { obj.queue(new Box(3, 3)) }, /^Error: Element already exists, call delete before adding!$/)
+    assert.deepEqual(obj.dequeue(), new Box(9, 9))
+    assert.deepEqual(obj.dequeue(), new Box(5, 5))
+    assert.deepEqual(obj.dequeue(), new Box(3, 3))
+    assert.deepEqual(obj.dequeue(), new Box(2, 3))
   })
 })

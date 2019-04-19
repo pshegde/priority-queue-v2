@@ -34,11 +34,10 @@ class Heap {
 function heapify(arr, parentInd, comparator) {
   let largestInd = parentInd
   //if child exists and is greater than parent
-  if (arr.length > parentInd + 1 && comparator(arr[parentInd + 1].priority, arr[parentInd].priority)) { //child greater retur true
+  if (arr.length > parentInd + 1 && comparator(getValue(arr[parentInd]), getValue(arr[parentInd + 1]))) { //child greater return true
     largestInd = parentInd + 1
   }
-  if (arr.length > parentInd + 2 && comparator(arr[parentInd + 2].priority, arr[parentInd].priority) &&
-    comparator(arr[parentInd + 2].priority, arr[largestInd].priority)) {
+  if (arr.length > parentInd + 2 && comparator(getValue(arr[largestInd]), getValue(arr[parentInd + 2]))) {
     largestInd = parentInd + 2
   }
   if (largestInd != parentInd) {
@@ -46,6 +45,10 @@ function heapify(arr, parentInd, comparator) {
     arr = heapify(arr, largestInd, comparator)
   }
   return arr
+}
+
+function getValue(obj) {
+  return obj.priority ? obj.priority : obj.val //if priority is undefined then return val
 }
 
 function swap(arr, i, j) {
