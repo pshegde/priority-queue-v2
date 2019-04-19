@@ -24,6 +24,8 @@ let comparator = function (a, b) {<br/>
 <pre>
 An example would be - <br/>
 
+const PriorityQueue = require('../index.js').priorityQueue
+
 let obj = new PriorityQueue(comparator)
 obj.queue('c', 1)
 obj.queue('b', 3)

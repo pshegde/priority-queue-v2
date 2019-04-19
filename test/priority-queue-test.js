@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require('assert')
-const PriorityQueue = require('../src/PriorityQueue')
+const PriorityQueue = require('../index.js').priorityQueue
 const Item = require('../src/Item')
 
 //a is parent b is child

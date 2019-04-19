@@ -1,1 +1,5 @@
-module.exports = require('./src/PriorityQueue')
+module.exports = {
+  priorityQueue: require('./src/PriorityQueue'),
+  heap: require('./src/Heap')
+}
+
