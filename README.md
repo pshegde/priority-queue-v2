@@ -3,11 +3,11 @@
 
 Operations supported - 
 
-queue - add an element to the queue
-dequeue - delete the max priority element from the queue
-isEmpty - returns true/false
-clear - clear the queue
-delete - If we need to update the priority, delete that item and insert it in again 
+queue - add an element to the queue<br/>
+dequeue - delete the max priority element from the queue<br/>
+isEmpty - returns true/false<br/>
+clear - clear the queue<br/>
+delete - If we need to update the priority, delete that item and insert it in again <br/>
 
 The Item stored in the queue should be class and a comparator should be provided.
 
