@@ -17,10 +17,10 @@ describe('test', () => {
     obj.queue('b', 3)
     obj.queue('c', 2)
 
-    assert.equal(obj.dequeue(), 'a') //4
-    assert.equal(obj.dequeue(), 'b')
-    assert.equal(obj.dequeue(), 'c')
-    assert.equal(obj.dequeue(), 'd')
+    assert.equal(obj.dequeue().val, 'a') //4
+    assert.equal(obj.dequeue().val, 'b')
+    assert.equal(obj.dequeue().val, 'c')
+    assert.equal(obj.dequeue().val, 'd')
     assert.equal(obj.dequeue(), -1)
   })
 
@@ -49,9 +49,9 @@ describe('test', () => {
     assert.throws(() => { obj.queue('a') }, /^Error/) //try to add key that exists already throws error
     obj.delete('a') //so we delete 
     obj.queue('a', 5)
-    assert.equal(obj.dequeue(), 'a')
-    assert.equal(obj.dequeue(), 'e')
-    assert.equal(obj.dequeue(), 'b')
+    assert.equal(obj.dequeue().val, 'a')
+    assert.equal(obj.dequeue().val, 'e')
+    assert.equal(obj.dequeue().val, 'b')
   })
 
   it('check if queue is empty', () => {
@@ -82,7 +82,7 @@ describe('test', () => {
     obj.queue('c', 1)
     obj.queue('b', 3)
 
-    assert.deepEqual(obj.peek(), 'b')
+    assert.deepEqual(obj.peek(), new Item('b', 3))
   })
 
   describe('test with an object', () => {

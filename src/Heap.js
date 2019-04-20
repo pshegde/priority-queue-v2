@@ -27,13 +27,13 @@ class Heap {
     let max = this.arr[0]
     this.arr = this.arr.slice(1, this.arr.length)
     this.callHeapify()
-    return max.val
+    return max.priority ? max : max.val
   }
 
   peek() {
     if (this.arr.length == 0)
       return -1
-    return this.arr[0].val
+    return this.arr[0].priority ? this.arr[0] : this.arr[0].val
   }
 }
 
