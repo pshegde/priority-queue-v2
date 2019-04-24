@@ -5,8 +5,9 @@ const PriorityQueue = require('../index.js')
 const Item = require('../src/Item')
 const _ = require('lodash')
 //a is parent b is child
+//sort in descending order
 let comparator = (a, b) => {
-  return a >= b ? false : true
+  return a < b ? true : false //swap true
 }
 
 describe('test', () => {

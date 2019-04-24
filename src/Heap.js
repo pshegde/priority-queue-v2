@@ -39,12 +39,14 @@ class Heap {
 
 function heapify(arr, parentInd, comparator) {
   let largestInd = parentInd
+  let leftChildInd = 2 * parentInd + 1
+  let rightChildInd = 2 * parentInd + 2
   //if child exists and is greater than parent
-  if (arr.length > parentInd + 1 && comparator(getValue(arr[parentInd]), getValue(arr[parentInd + 1]))) { //child greater return true
-    largestInd = parentInd + 1
+  if (arr.length > leftChildInd && comparator(getValue(arr[parentInd]), getValue(arr[leftChildInd]))) { //child greater return true
+    largestInd = leftChildInd
   }
-  if (arr.length > parentInd + 2 && comparator(getValue(arr[largestInd]), getValue(arr[parentInd + 2]))) {
-    largestInd = parentInd + 2
+  if (arr.length > rightChildInd && comparator(getValue(arr[largestInd]), getValue(arr[rightChildInd]))) {
+    largestInd = rightChildInd
   }
   if (largestInd != parentInd) {
     arr = swap(arr, largestInd, parentInd)
