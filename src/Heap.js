@@ -3,6 +3,9 @@ const removeArrayItems = require('remove-array-items')
 
 // creates a new heap data structure
 function create (comparator, maxLength=1000) {
+  if (!Number.isInteger(maxLength))
+    throw new Error('maxLength must be an integer')
+  
   const arr = new Array(maxLength)
   return { arr, length: 0, maxLength, comparator }
 }

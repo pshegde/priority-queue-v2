@@ -25,7 +25,7 @@ class Box {
 
 describe('test', () => {
   it('basic test', () => {
-  const obj = PQ.create(comparator)
+    const obj = PQ.create(comparator)
     PQ.queue(obj, 'd', 1)
     PQ.queue(obj, 'a', 4)
     PQ.queue(obj, 'b', 3)
@@ -36,6 +36,11 @@ describe('test', () => {
     assert.equal(PQ.dequeue(obj).val, 'c')
     assert.equal(PQ.dequeue(obj).val, 'd')
     assert.equal(PQ.dequeue(obj), undefined)
+
+
+    assert.throws(() => { PQ.create(obj, '10') }, /^Error: maxLength must be an integer$/)
+    assert.throws(() => { PQ.create(obj, 10.2) }, /^Error: maxLength must be an integer$/)
+    assert.throws(() => { PQ.create(obj, -3) }, /^RangeError: Invalid array length$/)
   })
 
   it('if queue is empty then dequeue undefined', () => {
