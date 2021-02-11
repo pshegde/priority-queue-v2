@@ -5,7 +5,7 @@ const removeArrayItems = require('remove-array-items')
 function create (comparator, maxLength=1000) {
   if (!Number.isInteger(maxLength))
     throw new Error('maxLength must be an integer')
-  
+
   const arr = new Array(maxLength)
   return { arr, length: 0, maxLength, comparator }
 }
@@ -66,7 +66,7 @@ function poll (heap) {
 
 function peek (heap) {
   if (heap.length == 0)
-      return -1
+      return
     return heap.arr[0].priority ? heap.arr[0] : heap.arr[0].val
 }
 
