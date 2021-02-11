@@ -1,18 +1,6 @@
 # priority-queue-v2
 
 
-## Operations supported
-
-* queue - add an element to the queue
-* dequeue - delete the max priority element from the queue
-* isEmpty - returns true/false
-* clear - clear the queue
-* delete - If we need to update the priority, delete that item and insert it in again
-* list - contents of heap
-
-The Item stored in the queue should be class and a comparator should be provided.
-
-
 ## Usage
 
 ```javascript
@@ -39,7 +27,19 @@ console.log(PQ.dequeue(obj)) // undefined
 ```
 
 
-### 1. If values in a queue are strings, comparator will receive priorities as a and b in the example below
+## API
+
+* queue - add an element to the queue
+* dequeue - delete the max priority element from the queue
+* isEmpty - returns true/false
+* clear - clear the queue
+* delete - If we need to update the priority, delete that item and insert it in again
+* list - contents of heap
+
+The Item stored in the queue should be class and a comparator should be provided.
+
+
+### If values in a queue are strings, comparator will receive priorities as a and b in the example below
 We need max priority element to be removed first.
 
 ```javascript
@@ -61,7 +61,7 @@ console.log(PQ.dequeue(obj)) //'a'
 ```
 
 
-### 2. If values in the queue is an object, comparator will receive the object and you need to compare priorities
+### If values in the queue is an object, comparator will receive the object and you need to compare priorities
 
 ```javascript
 class Box {
