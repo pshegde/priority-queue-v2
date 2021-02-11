@@ -1,12 +1,23 @@
 # priority-queue-v2
 
+There are many priority queue implementations on the web, but I couldn't find any that meet these critera:
+
+* **does not allocate lots of memory at run time**
+* has tests
+* is functional, data oriented
+* is tiny! (~150 lines of code)
+
+
+So here we are!
+
 
 ## Usage
 
 ```javascript
 const PQ = require('priority-queue-v2')
 
-// create a new priority queue that can hold a maximum of 20,000 items
+// create a new priority queue that can hold a maximum of 20,000 items.
+// by default max length is 1000
 const MAX_LENGTH = 20000
 const obj = PQ.create(comparator, MAX_LENGTH)
 
@@ -29,12 +40,12 @@ console.log(PQ.dequeue(obj)) // undefined
 
 ## API
 
-* queue - add an element to the queue
-* dequeue - delete the max priority element from the queue
-* isEmpty - returns true/false
-* clear - clear the queue
-* delete - If we need to update the priority, delete that item and insert it in again
-* list - contents of heap
+* `queue` - add an element to the queue
+* `dequeue` - delete the max priority element from the queue
+* `isEmpty` - returns true/false
+* `clear` - clear the queue
+* `delete` - If we need to update the priority, delete that item and insert it in again
+* `list` - contents of heap
 
 The Item stored in the queue should be class and a comparator should be provided.
 
