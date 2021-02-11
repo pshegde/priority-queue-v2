@@ -1,141 +1,15 @@
-'use strict'
-
 const assert = require('assert')
-const PriorityQueue = require('../index.js')
-const Item = require('../src/Item')
-const _ = require('lodash')
-//a is parent b is child
-//sort in descending order
-let comparator = (a, b) => {
+const PQ     = require('../src/PriorityQueue.js')
+
+
+// a is parent b is child
+// sort in descending order
+function comparator (a, b) {
   return a < b ? true : false //swap true
 }
 
-describe('test', () => {
-  it('basic test', () => {
-    let obj = new PriorityQueue(comparator)
-    obj.queue('d', 1)
-    obj.queue('a', 4)
-    obj.queue('b', 3)
-    obj.queue('c', 2)
 
-    assert.equal(obj.dequeue().val, 'a') //4
-    assert.equal(obj.dequeue().val, 'b')
-    assert.equal(obj.dequeue().val, 'c')
-    assert.equal(obj.dequeue().val, 'd')
-    assert.equal(obj.dequeue(), -1)
-  })
-
-  it('if queue is empty then dequeue -1', () => {
-    let obj = new PriorityQueue(comparator)
-    assert.equal(obj.dequeue(), '-1')
-  })
-
-  it('throw an error if we try to add a duplicate element in queue', () => {
-    let obj = new PriorityQueue(comparator)
-    obj.queue('e', 1)
-    assert.throws(() => { obj.queue('e', 3) }, /^Error/) //duplicate element in queue 
-  })
-
-  it('throw an error if we try to delete a key that doesnt exist', () => {
-    let obj = new PriorityQueue(comparator)
-    assert.throws(() => { obj.delete('3') }, /^Error/) //delete key that doesnt exist
-  })
-
-  it('should delete before updating priority', () => {
-    let obj = new PriorityQueue(comparator)
-    obj.queue('e', 3)
-    obj.queue('b', 1)
-    obj.queue('a', 2) //max priority
-
-    assert.throws(() => { obj.queue('a') }, /^Error/) //try to add key that exists already throws error
-    obj.delete('a') //so we delete 
-    obj.queue('a', 5)
-    assert.equal(obj.dequeue().val, 'a')
-    assert.equal(obj.dequeue().val, 'e')
-    assert.equal(obj.dequeue().val, 'b')
-  })
-
-  it('check if queue is empty', () => {
-    let obj = new PriorityQueue(comparator)
-    assert.equal(obj.isEmpty(), true)
-  })
-
-  it('clear the queue', () => {
-    let obj = new PriorityQueue(comparator)
-    obj.queue('a', 5)
-    assert.equal(obj.isEmpty(), false)
-    obj.clear()
-    assert.equal(obj.isEmpty(), true)
-  })
-
-  it('list the contents of the queue', () => {
-    let obj = new PriorityQueue(comparator)
-    obj.queue('c', 1)
-    obj.queue('b', 3)
-    obj.queue('a', 5)
-    assert.deepEqual(obj.list(), [new Item('a', 5),
-    new Item('c', 1),
-    new Item('b', 3)])
-  })
-
-  it('should peek content of queue', () => {
-    let obj = new PriorityQueue(comparator)
-    obj.queue('c', 1)
-    obj.queue('b', 3)
-
-    assert.deepEqual(obj.peek(), new Item('b', 3))
-  })
-
-  describe('test with an object', () => {
-    it('basic test', () => {
-      let obj = new PriorityQueue(Box.prototype.comparator)
-      obj.queue(new Box(5, 5))
-      obj.queue(new Box(2, 3))
-      obj.queue(new Box(3, 3))
-      obj.queue(new Box(9, 9))
-
-      assert.deepEqual(obj.peek(), new Box(9, 9))
-      assert.throws(() => { obj.queue(new Box(3, 3)) }, /^Error: Element already exists, call delete before adding!$/)
-      assert.deepEqual(obj.dequeue(), new Box(9, 9))
-      assert.deepEqual(obj.dequeue(), new Box(5, 5))
-      assert.deepEqual(obj.dequeue(), new Box(3, 3))
-      assert.deepEqual(obj.dequeue(), new Box(2, 3))
-    })
-
-    it('test peek', () => {
-      let obj = new PriorityQueue(Box.prototype.comparator)
-      obj.queue(new Box(5, 5))
-      obj.queue(new Box(9, 9))
-
-      assert.deepEqual(obj.peek(), new Box(9, 9))
-    })
-
-    it('throw an error if we try to add a duplicate element in queue', () => {
-      let obj = new PriorityQueue(comparator)
-      obj.queue(new Box(5, 5))
-
-      assert.throws(() => { obj.queue(new Box(5, 5)) }, /^Error/) //duplicate element in queue 
-    })
-
-    it('throw an error if we try to delete a key that doesnt exist', () => {
-      let obj = new PriorityQueue(comparator)
-      obj.queue(new Box(15, 5))
-      assert.throws(() => { obj.delete(new Box(15, 51)) }, /^Error/) //delete key that doesnt exist
-    })
-
-    it('should delete before updating priority', () => {
-      let obj = new PriorityQueue(comparator)
-      obj.queue(new Box(5, 5))
-      obj.queue(new Box(2, 3))
-      obj.queue(new Box(3, 3))
-      obj.delete(new Box(2, 3)) //so we delete 
-      assert(!obj.list().includes(new Box(2, 3)))
-      obj.queue(new Box(2, 3))
-      assert(_.isEqual(obj.list()[2], new Box(2, 3)))
-    })
-  })
-})
-
+// used for custom object testing
 class Box {
   constructor(w, l) {
     this.w = w
@@ -147,3 +21,144 @@ class Box {
     return a.area >= b.area ? false : true
   }
 }
+
+
+describe('test', () => {
+  it('basic test', () => {
+  const obj = PQ.create(comparator)
+    PQ.queue(obj, 'd', 1)
+    PQ.queue(obj, 'a', 4)
+    PQ.queue(obj, 'b', 3)
+    PQ.queue(obj, 'c', 2)
+
+    assert.equal(PQ.dequeue(obj).val, 'a')
+    assert.equal(PQ.dequeue(obj).val, 'b')
+    assert.equal(PQ.dequeue(obj).val, 'c')
+    assert.equal(PQ.dequeue(obj).val, 'd')
+    assert.equal(PQ.dequeue(obj), undefined)
+  })
+
+  it('if queue is empty then dequeue undefined', () => {
+    const obj = PQ.create(comparator)
+    assert.equal(PQ.dequeue(obj), undefined)
+  })
+
+  it('throw an error if we try to add a duplicate element in queue', () => {
+    const obj = PQ.create(comparator)
+    PQ.queue(obj, 'e', 1)
+    assert.throws(() => { PQ.queue(obj, 'e', 3) }, /^Error/) //duplicate element in queue 
+  })
+
+  it('throw an error if we try to delete a key that doesnt exist', () => {
+    const obj = PQ.create(comparator)
+    assert.throws(() => { PQ.delete(obj, '3') }, /^Error/) //delete key that doesnt exist
+  })
+
+  
+  it('should delete before updating priority', () => {
+    const obj = PQ.create(comparator)
+    PQ.queue(obj, 'e', 3)
+    PQ.queue(obj, 'b', 1)
+    PQ.queue(obj, 'a', 2) //max priority
+
+    assert.throws(() => { PQ.queue(obj, 'a') }, /^Error/) //try to add key that exists already throws error
+    PQ.delete(obj, 'a') //so we delete 
+    PQ.queue(obj, 'a', 5)
+    assert.equal(PQ.dequeue(obj).val, 'a')
+    assert.equal(PQ.dequeue(obj).val, 'e')
+    assert.equal(PQ.dequeue(obj).val, 'b')
+  })
+
+  it('check if queue is empty', () => {
+    const obj = PQ.create(comparator)
+    assert.equal(PQ.isEmpty(obj), true)
+  })
+
+  it('clear the queue', () => {
+    const obj = PQ.create(comparator)
+    PQ.queue(obj, 'a', 5)
+    assert.equal(PQ.isEmpty(obj), false)
+    PQ.clear(obj)
+    assert.equal(PQ.isEmpty(obj), true)
+  })
+
+  it('list the contents of the queue', () => {
+    const obj = PQ.create(comparator)
+    PQ.queue(obj, 'c', 1)
+    PQ.queue(obj, 'b', 3)
+    PQ.queue(obj, 'a', 5)
+    assert.equal(obj.length, 3)
+    assert.deepEqual(PQ.list(obj).slice(0, 3), [ { val: 'a', priority: 5 },
+    { val: 'c', priority: 1 },
+    { val: 'b', priority: 3 }])
+  })
+
+  it('should peek content of queue', () => {
+    const obj = PQ.create(comparator)
+    PQ.queue(obj, 'c', 1)
+    PQ.queue(obj, 'b', 3)
+
+    assert.deepEqual(PQ.peek(obj), { val:'b', priority: 3 })
+  })
+
+
+  describe('test with an object', () => {
+    it('basic test', () => {
+      const obj = PQ.create(Box.prototype.comparator)
+      const a = new Box(5, 5)
+      const b = new Box(2, 3)
+      const c = new Box(3, 3)
+      const d = new Box(9, 9)
+      PQ.queue(obj, a)
+      PQ.queue(obj, b)
+      PQ.queue(obj, c)
+      PQ.queue(obj, d)
+
+      assert.deepEqual(PQ.peek(obj), d)
+      assert.throws(() => { PQ.queue(obj, c) }, /^Error: Element already exists, call delete before adding!$/)
+      assert.deepEqual(PQ.dequeue(obj), d)
+      assert.deepEqual(PQ.dequeue(obj), a)
+      assert.deepEqual(PQ.dequeue(obj), c)
+      assert.deepEqual(PQ.dequeue(obj), b)
+    })
+
+    it('test peek', () => {
+      const obj = PQ.create(Box.prototype.comparator)
+      PQ.queue(obj, new Box(5, 5))
+      PQ.queue(obj, new Box(9, 9))
+
+      assert.deepEqual(PQ.peek(obj), new Box(9, 9))
+    })
+
+    it('throw an error if we try to add a duplicate element in queue', () => {
+      const obj = PQ.create(comparator)
+      const a = new Box(5, 5)
+      PQ.queue(obj, a)
+
+      assert.throws(() => { PQ.queue(obj, a) }, /^Error/) //duplicate element in queue 
+    })
+
+    it('throw an error if we try to delete a key that doesnt exist', () => {
+      const obj = PQ.create(comparator)
+      const a = new Box(15, 5)
+      PQ.queue(obj, a)
+      assert.throws(() => { PQ.delete(obj, new Box(15, 51)) }, /^Error/) //delete key that doesnt exist
+    })
+
+    it('should delete before updating priority', () => {
+      const obj = PQ.create(comparator)
+      const a = new Box(2, 3)
+
+      PQ.queue(obj, new Box(5, 5))
+      PQ.queue(obj, a)
+      PQ.queue(obj, new Box(3, 3))
+      PQ.delete(obj, a) // so we delete 
+      
+      assert(!PQ.list(obj).includes(a))
+
+      PQ.queue(obj, a)
+      assert.deepEqual(PQ.list(obj)[2], a)
+    })
+
+  })
+})

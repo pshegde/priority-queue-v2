@@ -1,52 +1,76 @@
-'use strict'
+const Heap             = require('./Heap.js')
+const removeArrayItems = require('remove-array-items')
 
-//implement using heap
 
-const _ = require('lodash')
-const Heap = require('./Heap.js')
-const Item = require('./Item.js')
-
-class PriorityQueue {
-  constructor(comparator) {
-    if (!comparator)
-      throw new Error('need to provide comparator')
-    this.heap = new Heap(comparator)
-  }
-
-  queue(k, priority) {
-    //if k already present then error
-    if (_.find(this.heap.arr, v => _.isEqual(v.val, k)))
-      throw new Error('Element already exists, call delete before adding!')
-    this.heap.insert(new Item(k, priority))
-  }
-
-  dequeue() {
-    return this.heap.poll()
-  }
-
-  clear() {
-    this.heap.arr = []
-  }
-
-  isEmpty() {
-    return this.heap.arr.length == 0
-  }
-
-  peek() {
-    return this.heap.peek()
-  }
-
-  delete(k) { //cannot update so we need to delete an item; before requeing it
-    let ind = _.findIndex(this.heap.arr, v => _.isEqual(v.val, k))
-    if (ind > -1) {
-      this.heap.arr.splice(ind, 1)
-      this.heap.callHeapify()
-    } else
-      throw new Error('key does not exist!')
-  }
-
-  list() {
-    return !this.heap.arr ? this.heap.arr : this.heap.arr[0].priority ? this.heap.arr : this.heap.arr.map(e => e.val)
-  }
+// creates a new priority queue data structure
+function create (comparator, maxLength=1000) {
+  return Heap.create(comparator, maxLength)
 }
-module.exports = PriorityQueue
+
+
+function _findIndex (arr, length, needle) {
+  for (let i=0; i < length; i++)
+    if (arr[i].val === needle)
+      return i
+  return -1
+}
+
+
+function queue (heap, val, priority) {
+  // if value already present then error
+    if (_findIndex(heap.arr, heap.length, val) >= 0)
+        throw new Error('Element already exists, call delete before adding!')
+
+    Heap.insert(heap, { val, priority })
+}
+
+
+function dequeue (heap) {
+  return Heap.poll(heap)
+}
+
+
+function clear (heap) {
+  heap.length = 0
+}
+
+
+function isEmpty (heap) {
+  return heap.length === 0
+}
+
+
+function peek (heap) {
+  return Heap.peek(heap)
+}
+
+
+function del (heap, k) {
+  const ind = _findIndex(heap.arr, heap.length, k)
+  if (ind < 0)
+    throw new Error('key does not exist!')
+
+  removeArrayItems(heap.arr, ind, 1)
+  heap.length--
+    Heap.callHeapify(heap)
+}
+
+
+function list (heap) {
+  if (!heap.length)
+    return [ ]
+
+  if (heap.arr[0].priority)
+    return heap.arr.slice(0, heap.length)
+
+  //return !this.heap.arr ? this.heap.arr : this.heap.arr[0].priority ? this.heap.arr : this.heap.arr.map(e => e.val)
+
+  const result = [ ]
+  for (let i=0; i < heap.length; i++)
+    result[i] = heap.arr[i].val
+
+  return result
+}
+
+
+module.exports = { create, queue, dequeue, clear, isEmpty, peek, delete: del, list }
