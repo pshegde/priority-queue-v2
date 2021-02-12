@@ -18,10 +18,10 @@ function _findIndex (arr, length, needle) {
 
 function queue (heap, val, priority) {
   // if value already present then error
-    if (_findIndex(heap.arr, heap.length, val) >= 0)
-        throw new Error('Element already exists, call delete before adding!')
+  if (_findIndex(heap.arr, heap.length, val) >= 0)
+    throw new Error('Element already exists, call delete before adding!')
 
-    Heap.insert(heap, { val, priority })
+  Heap.insert(heap, { val, priority })
 }
 
 
@@ -62,8 +62,6 @@ function list (heap) {
 
   if (heap.arr[0].priority)
     return heap.arr.slice(0, heap.length)
-
-  //return !this.heap.arr ? this.heap.arr : this.heap.arr[0].priority ? this.heap.arr : this.heap.arr.map(e => e.val)
 
   const result = [ ]
   for (let i=0; i < heap.length; i++)
