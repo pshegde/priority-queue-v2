@@ -24,7 +24,7 @@ function insert (heap, item) {
 function callHeapify (heap) {
   let ind = heap.length - 1
     while (ind > 0) {
-    if (ind % 2 == 0)
+    if (ind % 2 === 0)
       ind = (ind - 2) / 2
     else
       ind = (ind - 1) / 2
@@ -54,7 +54,7 @@ function heapify (heap, parentInd) {
 
 
 function poll (heap) {
-  if (heap.length == 0)
+  if (heap.length === 0)
     return
     const max = heap.arr[0]
     removeArrayItems(heap.arr, 0, 1)
@@ -65,7 +65,7 @@ function poll (heap) {
 
 
 function peek (heap) {
-  if (heap.length == 0)
+  if (heap.length === 0)
       return
     return heap.arr[0].priority ? heap.arr[0] : heap.arr[0].val
 }
