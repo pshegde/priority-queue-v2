@@ -4,7 +4,8 @@
   "description": "with comparator and delete element functionality",
   "main": "src/PriorityQueue.js",
   "scripts": {
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --recursive"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --recursive",
+    "prepublishOnly": "npm test",
   },
   "keywords": [
     "priority",
