@@ -16,6 +16,11 @@ So here we are!
 ```javascript
 const PQ = require('priority-queue-v2')
 
+// declarea a custom function for comparing the priority values of 2 items in the queue
+function comparator (a, b) {
+	return a < b ? true : false
+}
+
 // create a new priority queue that can hold a maximum of 20,000 items.
 // by default max length is 1000
 const MAX_LENGTH = 20000
