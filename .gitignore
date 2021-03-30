@@ -14,4 +14,4 @@ tmp
 .rvmrc
 coverage/
 node_modules/
-dist/*
+.DS_Store

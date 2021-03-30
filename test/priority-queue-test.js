@@ -1,14 +1,14 @@
-'use strict'
+import assert from 'assert'
+import PriorityQueue from '../PriorityQueue.js'
+import isEqual from 'lodash.isequal'
 
-const assert = require('assert')
-const PriorityQueue = require('../index.js')
-const Item = require('../src/Item')
-const _ = require('lodash')
-//a is parent b is child
-//sort in descending order
-let comparator = (a, b) => {
-  return a < b ? true : false //swap true
+
+// a is parent b is child
+// sort in descending order
+function comparator (a, b) {
+  return a < b ? true : false // swap true
 }
+
 
 describe('test', () => {
   it('basic test', () => {
@@ -22,37 +22,27 @@ describe('test', () => {
     assert.equal(obj.dequeue().val, 'b')
     assert.equal(obj.dequeue().val, 'c')
     assert.equal(obj.dequeue().val, 'd')
-    assert.equal(obj.dequeue(), -1)
+    assert.equal(obj.dequeue(), undefined)
   })
 
-  it('if queue is empty then dequeue -1', () => {
+  it('if queue is empty then dequeue undefined', () => {
     let obj = new PriorityQueue(comparator)
-    assert.equal(obj.dequeue(), '-1')
+    assert.equal(obj.dequeue(), undefined)
   })
 
-  it('throw an error if we try to add a duplicate element in queue', () => {
+
+  it('adding a duplicate element in queue re-queues it', () => {
     let obj = new PriorityQueue(comparator)
     obj.queue('e', 1)
-    assert.throws(() => { obj.queue('e', 3) }, /^Error/) //duplicate element in queue 
+    obj.queue('f', 2)
+    obj.queue('e', 3)
+
+    assert.deepEqual(obj.list()[0], { val: 'e', priority: 3 })
   })
 
   it('throw an error if we try to delete a key that doesnt exist', () => {
     let obj = new PriorityQueue(comparator)
     assert.throws(() => { obj.delete('3') }, /^Error/) //delete key that doesnt exist
-  })
-
-  it('should delete before updating priority', () => {
-    let obj = new PriorityQueue(comparator)
-    obj.queue('e', 3)
-    obj.queue('b', 1)
-    obj.queue('a', 2) //max priority
-
-    assert.throws(() => { obj.queue('a') }, /^Error/) //try to add key that exists already throws error
-    obj.delete('a') //so we delete 
-    obj.queue('a', 5)
-    assert.equal(obj.dequeue().val, 'a')
-    assert.equal(obj.dequeue().val, 'e')
-    assert.equal(obj.dequeue().val, 'b')
   })
 
   it('check if queue is empty', () => {
@@ -73,9 +63,12 @@ describe('test', () => {
     obj.queue('c', 1)
     obj.queue('b', 3)
     obj.queue('a', 5)
-    assert.deepEqual(obj.list(), [new Item('a', 5),
-    new Item('c', 1),
-    new Item('b', 3)])
+
+    assert.deepEqual(obj.list(), [
+      { val: 'a', priority: 5 },
+    { val: 'c', priority: 1 },
+    { val: 'b', priority: 3 }
+    ])
   })
 
   it('should peek content of queue', () => {
@@ -83,7 +76,7 @@ describe('test', () => {
     obj.queue('c', 1)
     obj.queue('b', 3)
 
-    assert.deepEqual(obj.peek(), new Item('b', 3))
+    assert.deepEqual(obj.peek(), { val: 'b', priority: 3 })
   })
 
   describe('test with an object', () => {
@@ -95,7 +88,6 @@ describe('test', () => {
       obj.queue(new Box(9, 9))
 
       assert.deepEqual(obj.peek(), new Box(9, 9))
-      assert.throws(() => { obj.queue(new Box(3, 3)) }, /^Error: Element already exists, call delete before adding!$/)
       assert.deepEqual(obj.dequeue(), new Box(9, 9))
       assert.deepEqual(obj.dequeue(), new Box(5, 5))
       assert.deepEqual(obj.dequeue(), new Box(3, 3))
@@ -110,28 +102,22 @@ describe('test', () => {
       assert.deepEqual(obj.peek(), new Box(9, 9))
     })
 
-    it('throw an error if we try to add a duplicate element in queue', () => {
-      let obj = new PriorityQueue(comparator)
-      obj.queue(new Box(5, 5))
-
-      assert.throws(() => { obj.queue(new Box(5, 5)) }, /^Error/) //duplicate element in queue 
-    })
-
     it('throw an error if we try to delete a key that doesnt exist', () => {
       let obj = new PriorityQueue(comparator)
       obj.queue(new Box(15, 5))
-      assert.throws(() => { obj.delete(new Box(15, 51)) }, /^Error/) //delete key that doesnt exist
+      assert.throws(() => { obj.delete(new Box(15, 51)) }, /^Error/) // delete key that doesnt exist
     })
 
-    it('should delete before updating priority', () => {
+    it('should update priority of existing object when re-queueing', () => {
       let obj = new PriorityQueue(comparator)
+
+      const tmp = new Box(2, 3)
       obj.queue(new Box(5, 5))
-      obj.queue(new Box(2, 3))
+      obj.queue(tmp)
       obj.queue(new Box(3, 3))
-      obj.delete(new Box(2, 3)) //so we delete 
-      assert(!obj.list().includes(new Box(2, 3)))
-      obj.queue(new Box(2, 3))
-      assert(_.isEqual(obj.list()[2], new Box(2, 3)))
+     
+      obj.queue(tmp)
+      assert(isEqual(obj.list()[2], tmp))
     })
   })
 })
@@ -140,7 +126,7 @@ class Box {
   constructor(w, l) {
     this.w = w
     this.l = l
-    this.area = w * l //this is priority
+    this.area = w * l // this is priority
   }
 
   comparator(a, b) {
