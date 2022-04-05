@@ -1,6 +1,6 @@
 # priority-queue-v2
 
-
+Published at - https://www.npmjs.com/package/priority-queue-v2
 <h2>Operations supported - </h2>
 
 queue - add an element to the queue<br/>
