@@ -7,15 +7,16 @@ const Heap = require('./Heap.js')
 const Item = require('./Item.js')
 
 class PriorityQueue {
-  constructor(comparator) {
+  constructor(comparator, allowDuplicates=false) {
     if (!comparator)
       throw new Error('need to provide comparator')
     this.heap = new Heap(comparator)
+    this.allowDuplicates = allowDuplicates
   }
 
   queue(k, priority) {
     //if k already present then error
-    if (_.find(this.heap.arr, v => _.isEqual(v.val, k)))
+    if (!this.allowDuplicates && _.find(this.heap.arr, v => _.isEqual(v.val, k)))
       throw new Error('Element already exists, call delete before adding!')
     this.heap.insert(new Item(k, priority))
   }
