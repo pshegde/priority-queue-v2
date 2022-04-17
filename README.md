@@ -11,6 +11,9 @@ delete - If we need to update the priority, delete that item and insert it in ag
 list - contents of heap<br/>
 
 The Item stored in the queue should be class and a comparator should be provided.<br/>
+By default, duplicate elements are not allowed. 
+To allow duplicates in the queue add the allowDuplicates argument to true. <br/>
+let obj = new PriorityQueue(comparator, true)
 
 <h2>Examples -  </h2>
 
