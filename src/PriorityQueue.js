@@ -47,7 +47,7 @@ class PriorityQueue {
   }
 
   list() {
-    return !this.heap.arr ? this.heap.arr : this.heap.arr[0].priority ? this.heap.arr : this.heap.arr.map(e => e.val)
+    return !this.heap.arr ? this.heap.arr : this.heap.arr.map(e => e.val)
   }
 }
 module.exports = PriorityQueue

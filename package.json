@@ -1,6 +1,6 @@
 {
   "name": "priority-queue-v2",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "with comparator and delete element functionality",
   "scripts": {
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --recursive"
